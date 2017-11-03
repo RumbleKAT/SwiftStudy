@@ -13,6 +13,7 @@ class ViewController: UIViewController, UITableViewDelegate, UITableViewDataSour
     // MARK:- Properties
     @IBOutlet weak var tableView: UITableView!
     
+    
     // MARK: - Methods
     // MARK: Life Cycle
     override func viewDidLoad() {
