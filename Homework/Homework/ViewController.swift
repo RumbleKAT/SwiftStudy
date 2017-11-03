@@ -46,8 +46,9 @@ class ViewController: UIViewController, UIWebViewDelegate {
         print("country : " + receiveData!)
     }
     
+    // MARK : - 구글에 해당 파라미터를 검색하는 메서드
+    
     func SearchGoogle(Param : String){
-        print(Param)
         let quest = "https://www.google.com/search?query=" + Param
         print(quest)
         if let url = URL(string: quest){
@@ -56,12 +57,10 @@ class ViewController: UIViewController, UIWebViewDelegate {
         }
         //Parameter가 nil 값이 아닐 경우 webView를 호출
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
+    
+    /*
+     P.S. 저번에 배웠던 WKWebView는 Xcode에서 실행이 안되서 이전 버전인 UIWebView를 사용하였습니다.
+     */
 
 }
 

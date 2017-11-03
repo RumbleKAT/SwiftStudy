@@ -17,7 +17,7 @@ class TableViewCell: UITableViewCell {
 
     override func awakeFromNib() {
         super.awakeFromNib()
-        // Initialization code
+        // Initialize friend_name font 
         self.friend_Name?.font = UIFont(name:"HelveticaNeue-Bold", size: 18.0)        
     }
 

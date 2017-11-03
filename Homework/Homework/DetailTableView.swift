@@ -12,6 +12,7 @@ class DetailTableView: UIViewController {
 
     var receiveitem = [UserData]()
     var Saved:Bool?
+    var RowIndex:Int?
     
     @IBOutlet weak var UserImage: UIImageView!
     @IBOutlet weak var UserTitle: UILabel!
@@ -21,9 +22,9 @@ class DetailTableView: UIViewController {
     
     
     @IBAction func EditButton(_ sender: UIBarButtonItem) {
-
+        
         if Saved == false{
-            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "REMOVE", style: UIBarButtonItemStyle.done, target: self, action: #selector(DetailTableView.EditButton(_:)))
+            self.navigationItem.rightBarButtonItem! = UIBarButtonItem(title: "REMOVE", style: UIBarButtonItemStyle.plain, target: self, action: #selector(DetailTableView.EditButton(_:)))
             
             let newFriend: UserData = self.receiveitem[0]
             datas.append(newFriend)
@@ -31,10 +32,12 @@ class DetailTableView: UIViewController {
             
         }else{
             self.navigationItem.rightBarButtonItem! = UIBarButtonItem(barButtonSystemItem: UIBarButtonSystemItem.add,target: self, action: #selector(DetailTableView.EditButton(_:)))
+        
+            // Userdata의 primary key에 해당하는 cell 데이터를 기준으로 판단
             
-            if(datas.capacity > 0){
+            if(datas.capacity >= 0){
                 print("Delete Data!")
-                datas.removeLast()
+                datas.remove(at: RowIndex!) //row index 찾기
             }
             //가장 최근의 것이 추가되었기 때문에 가장 마지막에 추가되는 것을 삭제한다.
             Saved = false
@@ -45,15 +48,15 @@ class DetailTableView: UIViewController {
         NotificationCenter.default.post(name: didUpdateTodoListNotification, object: nil)
     }
     
+    
     func CheckPreviousData(){
         for data in 0..<datas.count{
-            if datas[data].cell == receiveitem[0].cell{
-                print("같은 사람이 존재합니다.")
-                self.Saved = true
-            }
-            else{
-                print("다른 사람")
-                self.Saved = false
+            for index in 0..<receiveitem.count{
+                if datas[data].cell == receiveitem[index].cell{
+                    self.RowIndex = data
+                    print("같은 사람이 존재합니다.")
+                    self.Saved = true
+                }
             }
         }
     }

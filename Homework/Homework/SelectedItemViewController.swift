@@ -59,7 +59,6 @@ class SelectedItemViewController: UIViewController , UITableViewDelegate, UITabl
         item.receiveitem = [sender as! UserData]
         item.Saved = true
         
-        
     }
     
     

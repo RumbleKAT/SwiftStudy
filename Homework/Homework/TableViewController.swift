@@ -29,22 +29,22 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
     
         
     }
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
-    }
-
-    
+    // MARK: - Indicator 생성 객체
     lazy var indicator: UIActivityIndicatorView = {
         let indicator: UIActivityIndicatorView = UIActivityIndicatorView(activityIndicatorStyle:UIActivityIndicatorViewStyle.whiteLarge)
-        indicator.backgroundColor = UIColor.lightGray
+        indicator.backgroundColor = UIColor.blue
         indicator.translatesAutoresizingMaskIntoConstraints = false
         return indicator
     }()
     
     
-    // MARK: - Download JSON
+    // MARK: - Download JSON 메서드
+    
+    /*
+     NSURL 형식으로 url 변수를 저장하고 api 메서드 호출
+     Json 데이터를 URLSession.shared.dataTask로 NSDictionary 형태로 저장
+     DispatchQueue를 통해 비동기적으로 받은 데이터를 UI 테이블 뷰에 추가함
+     */
     
     func downloadWithURL(){
         let url = NSURL(string: "https://randomuser.me/api/?results=20&inc=name,picture,nat,cell,email,id")
@@ -55,7 +55,6 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                                       timeoutInterval: 20)
         
         downloadTask.httpMethod = "GET"
-        
         URLSession.shared.dataTask(with: downloadTask, completionHandler: {(data, response, error) -> Void in
             
             if let jsonObj = try? JSONSerialization.jsonObject(with: data!, options: .allowFragments) as? NSDictionary{
@@ -84,8 +83,6 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
                     let email = item["email"] as! String
                     let nation = item["nat"] as! String
                     
-                  //  self.nameList.append(cell)
-
                    let temp = UserData(N: nameObj!, p: pictureObj!,e: email,c: cell, n: nation)
                     self.itemList.append(temp)
                     
@@ -96,69 +93,12 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
             }
             
         }).resume()
-        
     }
     
-    
-    // MARK: - JSON Http Request
-    func GetData() {
-        let url = URL(string: "https://randomuser.me/api/?results=20&inc=name,picture,nat,cell,email,id")
-        
-        let task = URLSession.shared.dataTask(with: url!) { (data, response, error) in
-            if error != nil
-            {
-                print ("ERROR")
-            }
-            else{
-                if let content = data{
-                    do{
-                        
-                        if let myJson = try JSONSerialization.jsonObject(with: content, options: JSONSerialization.ReadingOptions.mutableContainers) as? [String : AnyObject]{
-                            
-                            let result = myJson["results"] as? [AnyObject]
-                            for item in result!{
-                                
-                                var nameObj: Name?
-                                var pictureObj: Picture?
-                                
-                                if let name = item["name"] as? [String : Any]{
-                                    let title = name["title"] as! String
-                                    let first = name["first"] as! String
-                                    let last = name["last"] as! String
-                                    nameObj = Name(title: title, first: first , last: last)
-                                }
-                                
-                                if let picture = item["picture"] as? [String : Any]{
-                                    let large = picture["large"] as! String
-                                    let medium = picture["medium"] as! String
-                                    let thumbnail = picture["thumbnail"] as! String
-                                    pictureObj = Picture(large: large, medium: medium, thumbnail: thumbnail)
-                                }
-                                
-                                let cell = item["cell"] as! String
-                                let email = item["email"] as! String
-                                let nation = item["nat"] as! String
-                                
-                                
-                                let temp = UserData(N: nameObj!, p: pictureObj!,e: cell,c: email, n: nation)
-                                self.itemList.append(temp)
-                            
-                                DispatchQueue.main.async {
-                                    self.tableView.reloadData()
-                                }
-                                //load each data
-                            }
-                        }
-                    }
-                    catch{
-                        print(error)
-                    }
-                }
-            }
-        }
-        task.resume()
- 
-    }
+    // MARK : - TableViewCell to DetailView
+    /*
+     테이블 뷰 셀을 클릭하면 해당 테이블의 Row가 deselect되고 DetailView로 performSegue를 통해서 해당 row의 데이터를 전달한다.
+     */
     
     func tableView(_ tableView: UITableView, didSelectRowAt indexPath: IndexPath) {
         tableView.deselectRow(at: indexPath, animated: true)
@@ -169,12 +109,13 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         let item = segue.destination as! DetailTableView
         item.receiveitem = [sender as! UserData]
         item.Saved = false
-        
     }
     
+
+    // MARK : - Set TableView row height
     func tableView(_ tableView: UITableView, heightForRowAt indexPath: IndexPath) -> CGFloat
     {
-        return 100.0;//Choose your custom row height
+        return 100.0;
     }
     
     // MARK: Display count
@@ -182,6 +123,7 @@ class TableViewController: UIViewController, UITableViewDelegate, UITableViewDat
         return self.itemList.count
     }
     
+    // MARK: Display TableViewCell
     func tableView(_ tableView: UITableView, cellForRowAt indexPath: IndexPath) -> UITableViewCell {
         
         let cell = tableView.dequeueReusableCell(withIdentifier: "FriendCell") as! TableViewCell

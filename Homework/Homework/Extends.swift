@@ -8,6 +8,8 @@
 
 import Foundation
 
+// MARK: - String index first to Uppercased
+
 extension String {
     var firstUppercased: String {
         guard let first = first else { return "" }

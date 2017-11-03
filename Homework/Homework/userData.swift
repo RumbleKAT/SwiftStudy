@@ -15,6 +15,8 @@ class UserDatas: Codable{
     }
 }
 
+// MARK : - UserData Model
+
 class UserData: Codable {
     let name_title:String
     let name_first:String
@@ -40,7 +42,7 @@ class UserData: Codable {
         nation = n
     }
     
-    // Type Method - throwing method
+    // DocumentURL에 저장할 path를 todoURL로 저장
     static func UserDataURL() throws -> URL {
         let fileManager = FileManager.default
         let documentURL: URL
@@ -56,6 +58,8 @@ class UserData: Codable {
 }
 
 let didUpdateTodoListNotification: Notification.Name = Notification.Name.init("did update best friend list")
+
+// MARK : - Whole Data Saving in datas
 
 var datas: [UserData] = {
     
@@ -74,7 +78,8 @@ var datas: [UserData] = {
 }()
 
 
-// Global Function
+// MARK : - Saving UserData
+
 func saveCurrentData() {
     let encoder = PropertyListEncoder()
     
