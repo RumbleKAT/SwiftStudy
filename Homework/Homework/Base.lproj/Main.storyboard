@@ -125,7 +125,7 @@
                                 <nil key="highlightedColor"/>
                             </label>
                             <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Ke6-g2-gmy">
-                                <rect key="frame" x="139" y="434" width="104" height="30"/>
+                                <rect key="frame" x="139" y="434" width="104" height="79"/>
                                 <state key="normal" title="Search on Web"/>
                                 <connections>
                                     <action selector="touchUpSearchWeb:" destination="Qm6-Pk-hMf" eventType="touchUpInside" id="vUU-4X-HdN"/>
@@ -405,7 +405,7 @@
                 </navigationController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="vcS-gM-wJz" userLabel="First Responder" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="1953" y="-786"/>
+            <point key="canvasLocation" x="1980" y="-706"/>
         </scene>
         <!--WebViewController-->
         <scene sceneID="hTH-D8-6h1">
@@ -430,6 +430,6 @@
         </scene>
     </scenes>
     <inferredMetricsTieBreakers>
-        <segue reference="lYv-de-xhi"/>
+        <segue reference="g41-Ic-77f"/>
     </inferredMetricsTieBreakers>
 </document>
